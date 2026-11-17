@@ -1,0 +1,11 @@
+#!/bin/sh /etc/rc.common
+# L2+R2 を 1 秒同時押しで MainUI を再起動する常駐プログラム（TRIMUI-BRICK-Pro プロジェクト）
+START=98
+
+start() {
+	/usr/bin/brickkeyd >/dev/null 2>&1 &
+}
+
+stop() {
+	killall brickkeyd 2>/dev/null
+}

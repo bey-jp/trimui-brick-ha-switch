@@ -1,0 +1,4 @@
+# go2rtc.yaml の例。Brick は H.264 を表示できないので、640x360・10fps の MJPEG に変換して渡す
+streams:
+  front_door:
+    - "exec:ffmpeg -rw_timeout 5000000 -i http://127.0.0.1:1984/api/stream.mp4?src=<元のカメラのストリーム名> -an -vf fps=10,scale=640:-2 -c:v mjpeg -q:v 6 -f mjpeg pipe:1"

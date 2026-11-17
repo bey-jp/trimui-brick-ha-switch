@@ -1,0 +1,29 @@
+# HA Switch 設定（Brick: /mnt/UDISK/Apps/HASwitch/config.txt）
+# url=Webhook の URL。A ボタンで {"entity":"<entity>"} を POST する
+# スロット行: 表示名|アイコン(mdi名)|entity_id[|状態を見る entity]   ← 左上から右へ、4段×5列=20個
+#   4列目を省略すると entity_id の状態を表示する。scene/script は状態なし（水色）扱い
+#   状態表示には同じフォルダの token（HA の長期アクセストークン）が必要
+# 空きにするときは行に「-」とだけ書く
+# [ページ名] の行で新しいページ（最大6ページ）。L/R か、左右の端から十字キーでページを移動
+url=http://192.168.0.10:8123/api/webhook/brick_switch
+# camurl=go2rtc の URL（カメラページで使う）
+camurl=http://192.168.0.10:1984
+# alert=タイマーの entity。作動中は画面の縁が赤く点滅する（省略すると点滅なし）
+#alert=timer.genkan_alert
+# xbutton=X ボタンで実行する entity（スロットのどこかに同じ entity が必要。省略時 script.all_toggle）
+xbutton=script.all_toggle
+
+[照明]
+リビング|ceiling-light|light.living
+キッチン|lightbulb|light.kitchen
+寝室|bed|light.bedroom
+廊下|wall-sconce-round|light.hallway
+デスク|desk|switch.desk_lamp
+全照明|lightbulb-group|script.all_toggle|input_boolean.all_power
+鍵|lock|lock.front_door
+扇風機|fan|fan.living_fan
+おやすみ|weather-night|scene.good_night
+-
+
+[カメラ]
+camera=front_door

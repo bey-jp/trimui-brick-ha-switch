@@ -1,0 +1,37 @@
+# automations.yaml に追加する。Brick の A ボタンで {"entity":"..."} が届く
+- id: brick_switch_webhook
+  alias: TRIMUI_Brick_HASwitch_Webhook
+  triggers:
+  - trigger: webhook
+    webhook_id: brick_switch
+    allowed_methods:
+    - POST
+    local_only: true
+  variables:
+    e: "{{ trigger.json.entity | default('') }}"
+    d: "{{ e.split('.')[0] }}"
+  conditions:
+  - condition: template
+    value_template: "{{ d in ['light','switch','scene','script','lock','input_boolean','fan'] and states(e) not in ['unknown'] }}"
+  actions:
+  - choose:
+    - conditions: "{{ d == 'scene' }}"
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: "{{ e }}"
+    - conditions: "{{ d == 'script' }}"
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: "{{ e }}"
+    - conditions: "{{ d == 'lock' }}"
+      sequence:
+      - action: "{{ 'lock.unlock' if is_state(e, 'locked') else 'lock.lock' }}"
+        target:
+          entity_id: "{{ e }}"
+    default:
+    - action: homeassistant.toggle
+      target:
+        entity_id: "{{ e }}"
+  mode: queued

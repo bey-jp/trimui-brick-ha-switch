@@ -1,0 +1,7 @@
+{
+"label":"HA Switch",
+"icon":"",
+"icontop":"icon.png",
+"launch":"launch.sh",
+"description":"Home Assistant スイッチ"
+}
